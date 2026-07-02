@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# 실제 파일(-f)이나 폴더(-d)가 아니면 전부 index.php 로 넘김 (CI3 라우팅 진입점)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]

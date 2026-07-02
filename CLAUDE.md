@@ -96,16 +96,25 @@ python hello.py
 - CI3(web 컨테이너) → 호스트명 **`db`**:3306 (compose 서비스명)
 - Python 크롤러(호스트) → **`127.0.0.1`**:3306 (포트 매핑)
 
-## 로드맵
+## 📌 진행 상황 & 다음 시작점 (RESUME)
 
-**지금 (환경 세팅)**: 폴더 구조 + Docker(MySQL+PHP) + CI3 Hello World + Python venv hello world. *기능 없음, 스택 기동 확인만.*
+**완료된 것**
+- ✅ 개발환경 세팅 (Docker: MySQL8 + PHP7.4/CI3, Python venv) — Hello World
+- ✅ **첫 세로 슬라이스 "DB→화면" 완성** (CI3 실전 학습 겸)
+  - CI3 ↔ MySQL 연결: `web/application/config/database.php`(hostname=`db`, utf8mb4), `autoload.php`에 `database` 라이브러리 등록
+  - `products` 테이블 + 샘플 3건: `db/schema.sql` (utf8mb4). *실행법: `docker compose exec -T db mysql --default-character-set=utf8mb4 -u squishy -psquishypass squishy < db/schema.sql`*
+  - `models/Product_model.php` (`get_all()` → Query Builder)
+  - `controllers/Product.php` + `views/products.php` (목록 표)
+  - **깔끔한 URL**: `config.php` `index_page=''` + `web/.htaccess` → `http://localhost:8080/product`
 
-**MVP**:
-1. DB 마이그레이션 (4개 테이블)
-2. 관리자 페이지: 상품 생성 + 몰 URL 연결(자동채움)
-3. 크롤러: 네이버 `detail`/`reviews` → 가격/후기 갱신
-4. 사용자 화면: 목록 + 상세(가격비교표·가격 그래프·후기)
+**▶ 다음에 여기서 시작** (추천 순서)
+1. **상품 상세 페이지** — `/product/5` 처럼 URL에 ID 받아 개별 상품 보기 (`Product::view($id)` + 모델 `get_by_id()`)
+2. **관리자 페이지** — 폼으로 상품 추가 (`$this->input->post()` + 모델 INSERT)
+3. **`offers` 테이블 + 몰 URL 연결** — 상품에 쇼핑몰 상세 URL 붙이기 (데이터 모델 참고)
+4. 크롤러(네이버 `detail`/`reviews`) → 가격/후기 갱신 → 사용자 상세에 가격비교·그래프
 5. 쿠팡·알리·테무 파서 + cron
+
+> 학습 방식: **사용자가 직접 타이핑**, 조수는 설명·검토·디버깅. (뷰/`.htaccess`/SQL 등은 요청 시 조수가 작성)
 
 **후속**: 태그(종류 분류), 후기 AI 요약(Claude), SNS 인기 크롤링, 최저가 알림.
 
