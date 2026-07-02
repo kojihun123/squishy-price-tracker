@@ -1,0 +1,6 @@
+playwright
+sqlalchemy
+pymysql
+beautifulsoup4
+python-dotenv
+requests

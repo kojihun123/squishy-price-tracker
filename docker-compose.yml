@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8
+    container_name: squishy-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpass}
+      MYSQL_DATABASE: ${DB_NAME:-squishy}
+      MYSQL_USER: ${DB_USER:-squishy}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-squishypass}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build: ./docker/php
+    container_name: squishy-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:

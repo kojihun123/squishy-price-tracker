@@ -1,0 +1,17 @@
+# Env
+.env
+
+# Python
+crawler/.venv/
+__pycache__/
+*.pyc
+
+# CI3 runtime
+web/application/logs/*.php
+web/application/cache/*
+!web/application/logs/index.html
+!web/application/cache/index.html
+
+# OS / editor
+.DS_Store
+*.swp
